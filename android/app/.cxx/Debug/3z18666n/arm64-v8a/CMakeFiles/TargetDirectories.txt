@@ -1,0 +1,2 @@
+F:/simple_task_manager/android/app/.cxx/Debug/3z18666n/arm64-v8a/CMakeFiles/edit_cache.dir
+F:/simple_task_manager/android/app/.cxx/Debug/3z18666n/arm64-v8a/CMakeFiles/rebuild_cache.dir
