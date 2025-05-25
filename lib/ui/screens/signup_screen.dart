@@ -2,9 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/data/models/network_response.dart';
 import 'package:task_manager/data/service/network_caller.dart';
+import 'package:task_manager/data/utils/urls.dart';
 import 'package:task_manager/ui/utils/app_colors.dart';
-import 'package:task_manager/ui/widgets/centerd_circular_progress_indicator.dart';
+import 'package:task_manager/ui/widgets/center_circular_progress_indicator.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
+import 'package:task_manager/ui/widgets/snack_bar_message.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -135,7 +137,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           Visibility(
             visible: !_inProgress,
-             replacement: CenterdCircularProgressIndicator(),
+            replacement: CenterdCircularProgressIndicator(),
             child: ElevatedButton(
                 onPressed: _onTapNextButton,
                 child: const Icon(Icons.arrow_circle_right)),
@@ -178,15 +180,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void signUp() async {
     _inProgress = true;
     setState(() {});
-    NetworkResponse response = await NetworkCaller.postRequest(
-        url: 'http://35.73.30.144:2005/api/v1/Registration');
+    final NetworkResponse response = await NetworkCaller.postRequest(
+        url: Urls.registration);
     _inProgress = false;
     setState(() {});
-    if(response.isSucsess){
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('New user created')));
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response.errorMessage),));
-
+    if (response.isSucsess) {
+      showSnackBarMessage(BuildContext, context, 'New user created');
+    } else {
+      showSnackBarMessage(BuildContext, context, response.errorMessage);
     }
   }
 
