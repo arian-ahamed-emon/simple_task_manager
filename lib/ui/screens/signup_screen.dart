@@ -173,18 +173,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void _onTapNextButton() {
     if (!_fromKey.currentState!.validate()) {
-      signUp();
+      return;
     }
+    return signUp();
   }
 
   void signUp() async {
     _inProgress = true;
     setState(() {});
+    Map<String,dynamic>requestBody ={
+      'email':_emailTEController.text.trim(),
+      'firstName':_firstNameTEController.text.trim(),
+      'lastName':_lastNameTEController.text.trim(),
+      'mobile':_mobileTEController.text.trim(),
+      'password':_passwordTEController.text,
+      'photo':'',
+    };
     final NetworkResponse response = await NetworkCaller.postRequest(
-        url: Urls.registration);
+        url: Urls.registration,body: requestBody);
     _inProgress = false;
     setState(() {});
-    if (response.isSucsess) {
+    if (response.isSuccess) {
       showSnackBarMessage(BuildContext, context, 'New user created');
     } else {
       showSnackBarMessage(BuildContext, context, response.errorMessage);

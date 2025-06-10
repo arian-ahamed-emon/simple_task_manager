@@ -143,8 +143,9 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _onTapNextButton() {
     if (!_formKey.currentState!.validate()) {
-      signIn();
+     return;
     }
+    return  signIn();
   }
 
   void _onTapSignUpButton() {
@@ -159,11 +160,15 @@ class _SignInScreenState extends State<SignInScreen> {
   void signIn() async {
     _inProgress = true;
     setState(() {});
+    Map<String,dynamic> requestBody = {
+      'email': _emailTEController.text.trim(),
+      'password': _passwordTEController.text
+    };
     final NetworkResponse response =
-        await NetworkCaller.postRequest(url: Urls.login);
+        await NetworkCaller.postRequest(url: Urls.login,body: requestBody);
     _inProgress = false;
     setState(() {});
-    if (response.isSucsess) {
+    if (response.isSuccess) {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(

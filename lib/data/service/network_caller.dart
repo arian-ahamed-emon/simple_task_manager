@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:task_manager/data/models/network_response.dart';
 
@@ -9,49 +8,49 @@ class NetworkCaller {
     try {
       Uri uri = Uri.parse(url);
       final Response response = await get(uri);
-      if (response.statusCode == 200) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         final decodeData = jsonDecode(response.body);
-        responseData(url, response);
+        logResponse(url, response);
         return NetworkResponse(
-            isSucsess: true,
+            isSuccess: true,
             statusCode: response.statusCode,
             responseData: decodeData);
       } else {
         return NetworkResponse(
-            isSucsess: false, statusCode: response.statusCode);
+            isSuccess: false, statusCode: response.statusCode);
       }
     } catch (e) {
       return NetworkResponse(
-          isSucsess: false, statusCode: -1, errorMessage: e.toString());
+          isSuccess: false, statusCode: -1, errorMessage: e.toString());
     }
   }
 
   static Future<NetworkResponse> postRequest(
-  {required String url, Map<String, dynamic>? body}) async {
+      {required String url, Map<String, dynamic>? body}) async {
     try {
       Uri uri = Uri.parse(url);
       final Response response = await post(uri,
-          headers: {'content type': 'application/json'},
-          body: jsonEncode(body));
-      if (response.statusCode == 200) {
-        final encodeData = jsonEncode(response.body);
-        responseData(url, response);
+          headers: {'Content-Type': 'application/json'},
+          body: body != null ? jsonEncode(body) : null);
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        final decodeData = jsonDecode(response.body);
+        logResponse(url, response);
         return NetworkResponse(
-            isSucsess: true,
+            isSuccess: true,
             statusCode: response.statusCode,
-            responseData: encodeData);
+            responseData: decodeData);
       } else {
         return NetworkResponse(
-            isSucsess: false, statusCode: response.statusCode);
+            isSuccess: false, statusCode: response.statusCode);
       }
     } catch (e) {
       return NetworkResponse(
-          isSucsess: false, statusCode: -1, errorMessage: e.toString());
+          isSuccess: false, statusCode: -1, errorMessage: e.toString());
     }
   }
 
-  static void responseData(String url, Response response) {
+  static void logResponse(String url, Response response) {
     debugPrint(
-        'URL:$url\nStatusCode : ${response.statusCode}\n BODY: ${response.body}');
+        'URL: $url\nStatusCode: ${response.statusCode}\nBODY: ${response.body}');
   }
 }
