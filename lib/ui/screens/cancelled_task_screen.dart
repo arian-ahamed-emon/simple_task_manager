@@ -62,7 +62,7 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
       );
       _cancelledTaskList = taskListModel.taskList ?? [];
     } else {
-      showSnackBarMessage(BuildContext, context, response.errorMessage, true);
+      showSnackBarMessage( context, response.errorMessage, isError: true);
     }
     _getCancelledTaskListInProgress = false;
     setState(() {});

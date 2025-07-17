@@ -39,10 +39,38 @@ ElevatedButtonThemeData _elevatedButtonThemeData() {
 
 InputDecorationTheme _inputDecorationTheme() {
   return InputDecorationTheme(
-      fillColor: Colors.white, filled: true, border: _inputBorder());
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    border: _outlineBorder(),
+    enabledBorder: _outlineBorder(),
+    focusedBorder: _focusedBorder(),
+    errorBorder: _errorBorder(),
+    focusedErrorBorder: _errorBorder(),
+    hintStyle: TextStyle(
+      color: Colors.grey.shade500,
+      fontSize: 14,
+    ),
+  );
 }
 
-OutlineInputBorder _inputBorder() {
+OutlineInputBorder _outlineBorder() {
   return OutlineInputBorder(
-      borderSide: BorderSide.none, borderRadius: BorderRadius.circular(8));
+    borderSide: BorderSide.none,
+    borderRadius: BorderRadius.circular(12),
+  );
+}
+
+OutlineInputBorder _focusedBorder() {
+  return OutlineInputBorder(
+    borderRadius: BorderRadius.circular(12),
+    borderSide: const BorderSide(color: Color(0xFF00BFA5), width: 2), // Teal
+  );
+}
+
+OutlineInputBorder _errorBorder() {
+  return OutlineInputBorder(
+    borderRadius: BorderRadius.circular(12),
+    borderSide: const BorderSide(color: Colors.redAccent, width: 2),
+  );
 }

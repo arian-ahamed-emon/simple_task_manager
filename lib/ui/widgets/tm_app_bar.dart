@@ -32,7 +32,7 @@ class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
              CircleAvatar(
               radius: 18,
-              backgroundImage: AssetImage(AuthController.userData?.photo?? ''),
+              backgroundImage: AssetImage('assets/images/profile_img.jpg'),
             ),
             const SizedBox(
               width: 19,
@@ -68,7 +68,7 @@ class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     (_) => false);
               },
-              icon: const Icon(Icons.logout))
+              icon: const Icon(Icons.logout,color: Colors.white,))
         ],
       ),
     );

@@ -114,9 +114,9 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     if (response.isSuccess) {
       _shouldRefreshPreviousPage = true;
       _clearTextFields();
-    showSnackBarMessage(BuildContext, context, 'New Task Added');
+    showSnackBarMessage(context, 'New Task Added');
     } else {
-      showSnackBarMessage(BuildContext, context, response.errorMessage);
+      showSnackBarMessage( context, response.errorMessage,isError: false);
     }
   }
 

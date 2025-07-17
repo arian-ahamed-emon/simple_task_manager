@@ -145,7 +145,7 @@ class _ForgotPasswordEmailScreenState extends State<ForgotPasswordEmailScreen> {
         ),
       );
     } else {
-      showSnackBarMessage(BuildContext, context, response.errorMessage);
+      showSnackBarMessage(context, response.errorMessage,isError: true);
     }
   }
 }

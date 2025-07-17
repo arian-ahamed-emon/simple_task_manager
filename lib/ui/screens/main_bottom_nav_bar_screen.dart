@@ -33,14 +33,14 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
           setState(() {});
         },
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.new_label), label: 'New'),
+          NavigationDestination(icon: Icon(Icons.note_add_rounded), label: 'New'),
           NavigationDestination(
-            icon: Icon(Icons.check_box),
+            icon: Icon(Icons.done_all_rounded),
             label: 'Completed',
           ),
-          NavigationDestination(icon: Icon(Icons.close), label: 'Cancelled'),
+          NavigationDestination(icon: Icon(Icons.cancel_presentation_rounded), label: 'Cancelled'),
           NavigationDestination(
-            icon: Icon(Icons.access_time_outlined),
+            icon: Icon(Icons.hourglass_bottom_rounded),
             label: 'Progress',
           ),
         ],

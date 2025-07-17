@@ -11,24 +11,27 @@ import '../widgets/screen_background.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   final String email;
+  final String otp;
 
-  const ResetPasswordScreen({super.key, required this.email});
+  const ResetPasswordScreen({
+    super.key,
+    required this.email,
+    required this.otp,
+  });
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _passwordTEController = TextEditingController();
-  TextEditingController _confirmPasswordTEController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _passwordTEController = TextEditingController();
+  final TextEditingController _confirmPasswordTEController = TextEditingController();
   bool _inProgress = false;
 
   @override
   Widget build(BuildContext context) {
-    TextTheme textTheme = Theme
-        .of(context)
-        .textTheme;
+    TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -46,7 +49,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 ),
                 Text(
-                  'Minimum length password 8 character with letter and number combination',
+                  'Minimum password length is 8 characters with letters and numbers',
                   style: textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w500,
                     color: Colors.grey,
@@ -55,12 +58,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 const SizedBox(height: 24),
                 _buildSignEmailForm(),
                 const SizedBox(height: 20),
-                Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [_buildSignInSection()],
-                  ),
-                ),
+                Center(child: _buildSignInSection()),
               ],
             ),
           ),
@@ -82,13 +80,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               if (value?.isEmpty ?? true) {
                 return 'Please input password';
               }
-              if (value!.length < 6) {
-                return "Password must be at least 6 characters";
+              if (value!.length < 8) {
+                return "Password must be at least 8 characters";
               }
               return null;
             },
             decoration: const InputDecoration(hintText: 'Password'),
           ),
+          const SizedBox(height: 8,),
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             controller: _confirmPasswordTEController,
@@ -96,6 +95,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             validator: (String? value) {
               if (value?.isEmpty ?? true) {
                 return 'Confirm your password';
+              }
+              if (value != _passwordTEController.text) {
+                return 'Passwords do not match';
               }
               return null;
             },
@@ -141,10 +143,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   void _onTapConfirmButton() {
     if (_formKey.currentState!.validate()) {
-      if (_passwordTEController.text != _confirmPasswordTEController.text) {
-        showSnackBarMessage(BuildContext, context, 'Passwords do not match', true);
-        return;
-      }
       _onResetPassword();
     }
   }
@@ -152,32 +150,36 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   void _onResetPassword() async {
     _inProgress = true;
     setState(() {});
+
     Map<String, dynamic> requestBody = {
       'email': widget.email,
+      'OTP': widget.otp,
       'password': _passwordTEController.text,
     };
+
     final NetworkResponse response = await NetworkCaller.postRequest(
       url: Urls.resetPassword,
       body: requestBody,
     );
 
-    if (response.isSuccess) {
-      showSnackBarMessage(BuildContext, context, 'Password reset successfully');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => SignInScreen()),
-      );
-    } else {
-      showSnackBarMessage(BuildContext, context, response.errorMessage);
-    }
     _inProgress = false;
     setState(() {});
+
+    if (response.isSuccess) {
+      showSnackBarMessage(context, 'Password reset successfully', isError: false);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const SignInScreen()),
+      );
+    } else {
+      showSnackBarMessage(context, response.errorMessage, isError: true);
+    }
   }
+
   @override
   void dispose() {
     _passwordTEController.dispose();
     _confirmPasswordTEController.dispose();
     super.dispose();
-
   }
 }

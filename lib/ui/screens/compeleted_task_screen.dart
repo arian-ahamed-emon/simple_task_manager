@@ -61,7 +61,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
       );
       _newTaskList = taskListModel.taskList ?? [];
     } else {
-      showSnackBarMessage(BuildContext, context, response.errorMessage, true);
+      showSnackBarMessage(context, response.errorMessage, isError: true);
     }
     _getCompletedTaskListInProgress = false;
     setState(() {});

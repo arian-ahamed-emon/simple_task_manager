@@ -78,6 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               return null;
             },
           ),
+          const SizedBox(height: 8),
           TextFormField(
             controller: _firstNameTEController,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -90,6 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               return null;
             },
           ),
+          const SizedBox(height: 8),
           TextFormField(
             controller: _lastNameTEController,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -102,6 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               return null;
             },
           ),
+          const SizedBox(height: 8),
           TextFormField(
             controller: _mobileTEController,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -190,9 +193,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _inProgress = false;
     setState(() {});
     if (response.isSuccess) {
-      showSnackBarMessage(BuildContext, context, 'New user created');
+      showSnackBarMessage( context, 'New user created',isError: false);
     } else {
-      showSnackBarMessage(BuildContext, context, response.errorMessage);
+      showSnackBarMessage(context, response.errorMessage,isError: true);
     }
   }
 

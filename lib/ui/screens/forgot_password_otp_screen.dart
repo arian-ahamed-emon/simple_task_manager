@@ -51,7 +51,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                   ),
                 ),
                 Text(
-                  'A 6 digit verification pin will send to your email address',
+                  'A 6 digit verification pin will be sent to your email address',
                   style: textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w500,
                     color: Colors.grey,
@@ -60,12 +60,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                 const SizedBox(height: 24),
                 _buildSignEmailForm(),
                 const SizedBox(height: 20),
-                Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [_buildSignInSection()],
-                  ),
-                ),
+                Center(child: _buildSignInSection()),
               ],
             ),
           ),
@@ -82,7 +77,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
           child: PinCodeTextField(
             validator: (String? value) {
               if (value?.isEmpty ?? true) {
-                return 'Enter otp first';
+                return 'Enter OTP first';
               }
               return null;
             },
@@ -103,16 +98,9 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
             animationDuration: const Duration(milliseconds: 300),
             backgroundColor: Colors.transparent,
             enableActiveFill: true,
-            beforeTextPaste: (text) {
-              print("Allowing to paste $text");
-              return true;
-            },
-            onChanged: (value) {
-              print('Change:$value');
-            },
-            onCompleted: (value) {
-              print('Complete: $value');
-            },
+            beforeTextPaste: (text) => true,
+            onChanged: (_) {},
+            onCompleted: (_) {},
             appContext: context,
           ),
         ),
@@ -148,7 +136,7 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => const SignInScreen()),
-                  (_) => false,
+                      (_) => false,
                 );
               },
           ),
@@ -158,10 +146,8 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
   }
 
   void _onTapNextButton() {
-    if(!_formKey.currentState!.validate()){
-      return ;
-    }
-    return _verifyOtp();
+    if (!_formKey.currentState!.validate()) return;
+    _verifyOtp();
   }
 
   void _verifyOtp() async {
@@ -169,18 +155,27 @@ class _ForgotPasswordOtpScreenState extends State<ForgotPasswordOtpScreen> {
     setState(() {});
     final String otp = _otpController.text.trim();
     final String email = widget.email;
+
     final NetworkResponse response = await NetworkCaller.getRequest(
       url: "${Urls.verifyOtp}$email/$otp",
     );
+
     _inProgress = false;
     setState(() {});
+
     if (response.isSuccess) {
+      showSnackBarMessage(context, 'Otp verified ');
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  ResetPasswordScreen(email: widget.email)),
+        MaterialPageRoute(
+          builder: (context) => ResetPasswordScreen(
+            email: widget.email,
+            otp: otp,
+          ),
+        ),
       );
     } else {
-      showSnackBarMessage(BuildContext, context, response.errorMessage);
+      showSnackBarMessage(context, response.errorMessage, isError: true);
     }
   }
 }

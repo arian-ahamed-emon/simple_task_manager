@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:new_task_manager/data/models/user_model.dart';
 import 'package:new_task_manager/ui/screens/signup_screen.dart';
 import '../../data/models/login_model.dart';
 import '../../data/models/network_response.dart';
@@ -182,7 +181,7 @@ class _SignInScreenState extends State<SignInScreen> {
             (value) => false,
       );
     } else {
-      showSnackBarMessage(BuildContext,context, response.errorMessage, true);
+      showSnackBarMessage(context, response.errorMessage, isError: true);
     }
   }
 

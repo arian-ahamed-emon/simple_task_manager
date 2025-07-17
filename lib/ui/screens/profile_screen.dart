@@ -71,8 +71,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     keyboardType: TextInputType.name,
                     decoration: const InputDecoration(hintText: 'First Name'),
                     validator: (String? value) {
-                      return 'Enter a valid value';
+                      return 'Enter a valid name';
                     },
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
 
                   ),
                   const SizedBox(height: 8),
@@ -81,8 +82,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     keyboardType: TextInputType.name,
                     decoration: const InputDecoration(hintText: 'Last Name'),
                     validator: (String? value) {
-                      return 'Enter a valid value';
+                      return 'Enter a valid name';
                     },
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
 
                   ),
                   const SizedBox(height: 8),
@@ -91,17 +93,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     keyboardType: const TextInputType.numberWithOptions(),
                     decoration: const InputDecoration(hintText: 'Mobile'),
                     validator: (String? value) {
-                      return 'Enter a valid value';
+                      if(value?.trim().isEmpty ?? true){
+                        return 'Enter a valid number';
+                      }
+                      return null;
                     },
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
 
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _passwordTEController,
                     obscureText: true,
-                    decoration: const InputDecoration(hintText: 'Password'),
+                    decoration:  InputDecoration(hintText: 'Password'),
                     validator: (String? value) {
-                      return 'Enter a valid password';
+                      if(value?.trim().isEmpty ?? true) {
+                        return 'Enter a valid password';
+                      }
+                      return null;
                     },
 
                   ),
@@ -207,13 +216,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       url: Urls.profileUpdate,
       body: requestBody,
     );
+    if (response.isSuccess) {
+      showSnackBarMessage( context, 'Profile has been updated',isError: false);
+    } else {
+      showSnackBarMessage( context, response.errorMessage,isError: true);
+    }
     _UpdateProfileInProgress = false;
     setState(() {});
-    if (response.isSuccess) {
-      showSnackBarMessage(BuildContext, context, 'Profile has been updated');
-    } else {
-      showSnackBarMessage(BuildContext, context, response.errorMessage);
-    }
+    _formKey.currentState?.reset();
+    _passwordTEController.clear();
   }
   @override
   void dispose() {

@@ -49,6 +49,7 @@ class _TaskCardState extends State<TaskCard> {
               style: Theme.of(context).textTheme.titleSmall,
             ),
             Text(widget.taskModel.description ?? ''),
+            SizedBox(height: 8,),
             Text('Date: ${widget.taskModel.createdDate}'),
             const SizedBox(height: 18),
             Row(
@@ -63,7 +64,7 @@ class _TaskCardState extends State<TaskCard> {
                       replacement: CenterdCircularProgressIndicator(),
                       child: IconButton(
                         onPressed: _onTapEditButton,
-                        icon: const Icon(Icons.edit),
+                        icon: const Icon(Icons.edit_note),
                       ),
                     ),
                     Visibility(
@@ -71,7 +72,7 @@ class _TaskCardState extends State<TaskCard> {
                       replacement: CenterdCircularProgressIndicator(),
                       child: IconButton(
                         onPressed: _onTapDeleteButton,
-                        icon: const Icon(Icons.delete),
+                        icon: Icon(Icons.delete_outlined,color: Colors.red,),
                       ),
                     ),
                   ],
@@ -127,7 +128,7 @@ class _TaskCardState extends State<TaskCard> {
     } else {
       _deleteTaskInProgress = false;
       setState(() {});
-      showSnackBarMessage(BuildContext,context, response.errorMessage);
+      showSnackBarMessage(context, response.errorMessage,isError: true);
     }
   }
 
@@ -139,7 +140,7 @@ class _TaskCardState extends State<TaskCard> {
     switch (_selectedStatus) {
       case 'New':
         labelText = 'New';
-        chipColor = Colors.blue;
+        chipColor = Colors.teal;
         break;
       case 'Completed':
         labelText = 'Completed';
@@ -151,20 +152,20 @@ class _TaskCardState extends State<TaskCard> {
         break;
       case 'Progress':
         labelText = 'Progress';
-        chipColor = Colors.orange;
+        chipColor = Colors.pink;
         break;
       default:
         labelText = 'Unknown';
         chipColor = Colors.grey;
     }
     return Chip(
-
       label:  Text(
         labelText ,
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,color: Colors.white),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       side: const BorderSide(color: AppColors.themecolor),
+      backgroundColor: chipColor,
     );
   }
 
@@ -178,7 +179,7 @@ class _TaskCardState extends State<TaskCard> {
     } else {
       _changeStatusInProgress = false;
       setState(() {});
-      showSnackBarMessage(BuildContext, context, response.errorMessage);
+      showSnackBarMessage(context, response.errorMessage,isError: true);
     }
   }
 }
