@@ -1,16 +1,28 @@
-# new_task_manager
+# 📋 New Task Manager App
 
-A new Flutter project.
+A modern, clean, and efficient Task Manager application built with **Flutter**.  
+This app helps users manage their daily tasks with ease — add, update, delete, and track progress in a user-friendly way.
 
-## Getting Started
+## 🚀 Features
 
-This project is a starting point for a Flutter application.
+- ✅ Create New Tasks
+- 📌 Mark Tasks as Complete, In Progress, or Cancelled
+- 🗂 Task Filtering Based on Status
+- 🖋 Update or Edit Task Details
+- 🧾 Clean & Intuitive UI with Material Design
+- 🔔 Smart Feedback (Snackbars, Loaders, and More)
+- 📱 Fully Responsive on Android Devices
 
-A few resources to get you started if this is your first Flutter project:
+## 🧰 Tech Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Flutter** – Frontend Framework
+- **Dart** – Programming Language
+- **REST API** – Integration for task operations
+- **Firebase / Local DB** – (Optional) Backend Integration
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🔧 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/arian-ahamed-emon/simple_task_manager.git
