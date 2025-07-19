@@ -26,3 +26,4 @@ This app helps users manage their daily tasks with ease — add, update, delete,
 
 ```bash
 git clone https://github.com/arian-ahamed-emon/simple_task_manager.git
+cd new_task_manager
